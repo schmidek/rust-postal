@@ -19,6 +19,7 @@ parking_lot = "0.8.0"
 
 [build-dependencies]
 bindgen = "0.50"
+cc = { version = "1.0" }
 
 [[bench]]
 name = "benches"
