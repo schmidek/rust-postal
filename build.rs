@@ -14,6 +14,9 @@ fn main() {
     Command::new("./bootstrap.sh")
                       .current_dir(&Path::new("libpostal"))
                       .status().unwrap();
+    Command::new("./configure")
+                      .current_dir(&Path::new("libpostal"))
+                      .status().unwrap();
     let sources = vec!(
         "strndup.c",
         "libpostal.c",
