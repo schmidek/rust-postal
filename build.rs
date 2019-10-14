@@ -56,8 +56,13 @@ fn main() {
     for source in sources {
         build.file(format!("libpostal/src/{}", source));
     }
-    build.include("libpostal");
-    build.compile("libpostal.a");
+    build.define("LIBPOSTAL_DATA_DIR", "\"/tmp\"")
+    .define("DOWNLOAD_DATA","false")
+    .define("HAVE_DIRENT_H","1")
+    .warnings(false)
+    .extra_warnings(false)
+    .include("libpostal")
+    .compile("libpostal.a");
 
     let bindings = bindgen::Builder::default()
         .rustfmt_bindings(true)
