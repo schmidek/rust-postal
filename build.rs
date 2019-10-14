@@ -3,10 +3,17 @@
 extern crate bindgen;
 extern crate cc;
 
+use std::process::Command;
 use std::env;
+use std::path::Path;
 use std::path::PathBuf;
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=Cargo.lock");
+    Command::new("./bootstrap.sh")
+                      .current_dir(&Path::new("libpostal"))
+                      .status().unwrap();
     let sources = vec!(
         "strndup.c",
         "libpostal.c",
@@ -56,9 +63,9 @@ fn main() {
     for source in sources {
         build.file(format!("libpostal/src/{}", source));
     }
-    build.define("LIBPOSTAL_DATA_DIR", "\"/tmp\"")
+    build.define("LIBPOSTAL_DATA_DIR", "\"/tmp/libpostal\"")
     .define("DOWNLOAD_DATA","false")
-    .define("HAVE_DIRENT_H","1")
+    .define("HAVE_CONFIG_H","1")
     .warnings(false)
     .extra_warnings(false)
     .include("libpostal")
